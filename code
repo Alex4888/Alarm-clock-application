@@ -1,0 +1,29 @@
+import time
+import playsound
+
+# function to play alarm sound
+def play_alarm(sound_file):
+    playsound.playsound(sound_file)
+
+# function to set the alarm
+def set_alarm():
+    print("Set alarm time (in hh:mm:ss format): ")
+    alarm_time_str = input("> ")
+    try:
+        alarm_time = time.strptime(alarm_time_str, "%H:%M:%S")
+        return alarm_time
+    except ValueError:
+        print("Invalid time format! Please try again.")
+        return set_alarm()
+
+# main program
+alarm_time = set_alarm()
+
+while True:
+    current_time = time.localtime()
+    if current_time.tm_hour == alarm_time.tm_hour and current_time.tm_min == alarm_time.tm_min and current_time.tm_sec == alarm_time.tm_sec:
+        print("Time to wake up!")
+        play_alarm("alarm_sound.mp3")
+        break
+    else:
+        time.sleep(1) # wait for 1 second before checking again
